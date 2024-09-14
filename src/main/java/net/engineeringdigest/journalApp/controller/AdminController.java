@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalApp.controller;
 
+import net.engineeringdigest.journalApp.cache.AppCache;
 import net.engineeringdigest.journalApp.journalEntry.User;
 import net.engineeringdigest.journalApp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    AppCache appCache;
+
     //    here  ResponseEntity<?>    this ?  is called wild card
     @GetMapping("/allUsers")
     public ResponseEntity<?> getAllUsers(){
@@ -29,5 +33,10 @@ public class AdminController {
     public ResponseEntity<?> createAdminUser(@RequestBody User user){
         userService.saveAdmin(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("clear-app-cache")
+    public void clearAppCache(){
+        appCache.init();
     }
 }
